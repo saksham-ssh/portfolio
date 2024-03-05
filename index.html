@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://kit.fontawesome.com/066b2d025b.js" crossorigin="anonymous"></script>
+    <title>Saksham || Portfolio</title>
+</head>
+<body>
+
+    <!-- update mywork, see more option & mediaquery for responsive -->
+
+    <!-- HOME -->
+    <div id="header">
+        <div class="container"> 
+            <nav>
+                <p><span>S</span>aksham.</p>
+                <ul id="sidemenu">
+                    <li><a href="#header">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#mywork">My Work</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <i class="fa-sharp fa-solid fa-xmark" onclick="closemenu()"></i>
+                </ul>
+                <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+            </nav>
+            <div class="header-text">
+                <p>Web Developer..</p>
+                <h1>Hi, I'm <span>Saksham Kumar</span><br> From India</h1>
+                <h1><span class="auto"></span></h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- About -->
+    <div id="about">
+        <div class="container">
+            <div class="row">
+                <div class="row-col-1">
+                    <img src="./img/about.jpg" alt="" class="user">
+                </div>
+                <div class="row-col-2">
+                    <h1 class="sub-title">About Me</h1>
+                    <p>As a graduate engineer, I have extensive knowledge and experience in design, development and problem solving. I am dedicated to creating a good and user-friendly website, and throughout my academic career I have created many projects that demonstrate my web development skills. I love exploring and learning new technologies.</p>
+
+                    <div class="tab-tables">
+                        <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                        <p class="tab-links" onclick="opentab('education')">Education</p>
+                    </div>
+                    <div class="tab-content active-tab" id="skills">
+                        <ul>
+                            <li><span>Web Development</span><br>Build web application</li>
+                            <li><span>SQL / NOSQL</span><br>Working with databases</li>
+                            <li><span>CSS</span><br>Working with bootstrap and tailwind css</li>
+                            <li><span>UI/UX</span><br>Designing web application interface</li>
+                            <li><span>Other tools</span><br>Git, GitHub, Postman, Linux, etc</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="education">
+                        <ul>
+                            <li><span>2024</span><br>BE-CSE from Chandigarh University <br> 7.88</li>
+                            <li><span>2020</span><br>Gaya College, Gaya <br> 69.6</li>
+                            <li><span>2018</span><br>DAV Public school, Sherghati <br> 71.67</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Services -->
+    <div id="services">
+        <div class="container">
+            <h1 class="sub-title">Services</h1>
+            <div class="services-list">
+                <div>
+                    <i class="fa-solid fa-code fa-beat"></i>
+                    <h2>Web Development</h2>
+                    <p>Web development is the work involved in developing a website for the Internet (World Wide Web) or an intranet (a private network)Web development can range from developing a simple single static page of plain text to complex web applications, electronic businesses, and social network services. </p>
+                    <a href="https://en.wikipedia.org/wiki/Web_development#:~:text=Web%20development%20is%20the%20work,businesses%2C%20and%20social%20network%20services." target="_blank">Learn More</a>
+                </div>
+                <div>
+                    <i class="fa-sharp fa-solid fa-crop fa-beat-fade"></i>
+                    <h2>CSS Designing</h2>
+                    <p>Cascading Style Sheets (CSS) is a style sheet language used for describing the presentation of a document written in a markup language such as HTML or XML (including XML dialects such as SVG, MathML or XHTML).CSS is a cornerstone technology of the World Wide Web, alongside HTML and JavaScript.</p>
+                    <a href="https://en.wikipedia.org/wiki/CSS" target="_blank">Learn More</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-database fa-bounce"></i>
+                    <h2>SQL / NOSQL Databases</h2>
+                    <p>Structured Query Language is a domain-specific language used in programming and designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system.</p>
+                    <a href="https://www.ibm.com/cloud/blog/sql-vs-nosql#:~:text=What%20is%20a%20NoSQL%20database,coined%20until%20the%20early%202000s." target="_blank">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- mywork -->
+    <div id="mywork">
+        <div class="container">
+            <h1 class="sub-title">My Works</h1>
+
+            <div class="work-list">
+                <div class="work">
+                    <img src="./img/work-1.jpg" alt="work1">
+                    <div class="layer">
+                        <h2>RealTime Code Editor</h2>
+                        <p>In this application, We can connect multiple people at the same time and he/she can modify the code at the same time. In this we can also provide the room functionality so, not random person can misuse the code.</p>
+                        <div class="link-websites">
+                            <a href="notDeploy.html" target="_blank"><i class="fa-sharp fa-solid fa-up-right-from-square"></i></a>
+                            <a href="https://github.com/saksham-ssh/realtime-code-editor" target="_blank"><i class="fa-solid fa-code"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="work">
+                    <img src="./img/work-2.jpg" alt="work2">
+                    <div class="layer">
+                        <h2>inShare File Sharing</h2>
+                        <p>inShare file sharing application help to send file upto 100mb without any login authentication, here the file are automatically delete after 24 hours and 100% secure to transfer private documents.</p>
+                        <div class="link-websites">
+                            <a href="notDeploy.html" target="_blank"><i class="fa-sharp fa-solid fa-up-right-from-square"></i></a>
+                            <a href="https://github.com/saksham-ssh/inShare" target="_blank"><i class="fa-solid fa-code"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="work">
+                    <img src="./img/work-3.jpg" alt="work3">
+                    <div class="layer">
+                        <h2>IMDb Clone</h2>
+                        <p>This application use to show treading movies and the top rated movies at all time. Users can use this application to see the trending movies and rating of the movie.</p>
+                        <div class="link-websites">
+                            <a href="https://imdb-clone-two-mu.vercel.app/" target="_blank"><i class="fa-sharp fa-solid fa-up-right-from-square"></i></a>
+                            <a href="https://github.com/saksham-ssh/imdb-clone" target="_blank"><i class="fa-solid fa-code"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <a href="#" class="btn">See More</a> -->
+
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <div id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="contact-left">
+                    <h1 class="sub-title">Contact Me</h1>
+                    <p><i class="fa-solid fa-envelope"></i> saksham.e0@gmail.com</p>
+                    <p><i class="fa-solid fa-phone"></i> +917004388087</p>
+                    <div class="social-media-icon">
+                        <a href="https://www.facebook.com/saksham.ssh" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/saksham_ssh" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/saksham-ssh/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://github.com/saksham-ssh" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                    <a href="./Resume.pdf" download class="btn btn2">Download CV</a>
+                </div>
+                <div class="contact-right">
+                    <form name="submit-to-google-sheet">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" rows="6" placeholder="Message"></textarea>
+                        <button type="submit" class="btn btn2">Submit</button>
+                    </form>
+                    <span id="msg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Copyright © Saksham.</p>
+        </div>
+    </div>
+
+
+<!-- skill js -->
+<script>
+
+    let tablinks = document.getElementsByClassName("tab-links");
+    let tabcontents = document.getElementsByClassName("tab-content");
+
+    function opentab(tabname) {
+        for(tablink of tablinks)
+        {
+            tablink.classList.remove("active-link");
+        }
+        for(tabcontent of tabcontents)
+        {
+            tabcontent.classList.remove("active-tab");
+        }
+
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+
+</script>
+
+<!-- google sheet form -->
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwUwYjXAhoUC8dcPfFKESpRzN-Xsb2q7MjYkyrRFx4k7PGoO9E5G4igwGAwTAqykDjQ/exec'
+    const form = document.forms['submit-to-google-sheet']
+    const msg = document.getElementById("msg")
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            msg.innerHTML = "Message sent successfully"
+            setTimeout(()=>{
+                msg.innerHTML = ""
+            }, 5000)
+            form.reset()
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+</script>
+
+<!-- for eat, sleep, code -->
+<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script>
+    let typed = new Typed(".auto", {
+        strings: ["Eat", "Sleep", "Code"],
+        typeSpeed: 150,
+        backSpeed: 150,
+        loop: true
+    })
+</script>
+
+<!-- sidemenu for the small screen -->
+<script>
+    let sidemenu = document.getElementById('sidemenu');
+    const openmenu = ()=>{
+        sidemenu.style.right = 0;
+    }
+    const closemenu = () =>{
+        sidemenu.style.right = "-200px";
+    }
+</script>
+
+</body>
+</html>
