@@ -164,7 +164,9 @@
                     <a href="./Resume.pdf" download class="btn btn2">Download CV</a>
                 </div>
                 <div class="contact-right">
-                    <form name="submit-to-google-sheet">
+                    <form action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="7f2325f1-f2aa-4761-b6ef-af6bddaa20a0">
+
                         <input type="text" name="name" placeholder="Your Name" required>
                         <input type="email" name="email" placeholder="Your Email" required>
                         <textarea name="message" rows="6" placeholder="Message"></textarea>
@@ -202,25 +204,6 @@
 
 </script>
 
-<!-- google sheet form -->
-<script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwUwYjXAhoUC8dcPfFKESpRzN-Xsb2q7MjYkyrRFx4k7PGoO9E5G4igwGAwTAqykDjQ/exec'
-    const form = document.forms['submit-to-google-sheet']
-    const msg = document.getElementById("msg")
-
-    form.addEventListener('submit', e => {
-      e.preventDefault()
-      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => {
-            msg.innerHTML = "Message sent successfully"
-            setTimeout(()=>{
-                msg.innerHTML = ""
-            }, 5000)
-            form.reset()
-        })
-        .catch(error => console.error('Error!', error.message))
-    })
-</script>
 
 <!-- for eat, sleep, code -->
 <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
