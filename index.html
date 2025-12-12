@@ -229,3 +229,113 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>simple-web</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- This plugin makes the JAR executable (java -jar ...) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.example.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+
+
+
+
+
+
+package com.example;
+
+import com.sun.net.httpserver.HttpServer;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+
+public class App {
+    public static void main(String[] args) throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+
+        server.createContext("/", exchange -> {
+            String response = "Hello Banker!";
+            exchange.sendResponseHeaders(200, response.length());
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes());
+            }
+        });
+
+        server.start();
+        System.out.println("Server running at http://localhost:8080/");
+    }
+}
+
+
+
+
+
+stages:
+  - build
+  - deploy
+
+build_app:
+  stage: build
+  script:
+    - mvn -o clean package
+  artifacts:
+    paths:
+      - target/simple-web-1.0-SNAPSHOT.jar
+
+deploy_app:
+  stage: deploy
+  script:
+    # Kill previous running jar
+    - echo "Stopping old application..."
+    - pkill -f simple-web-1.0-SNAPSHOT.jar || true
+
+    # Start new jar
+    - echo "Starting new application..."
+    - nohup java -jar target/simple-web-1.0-SNAPSHOT.jar > app.log 2>&1 &
+  when: on_success
+
+
+
