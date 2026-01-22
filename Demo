@@ -1,0 +1,87 @@
+use strict;
+use warnings;
+use File::Find;
+use Cwd;
+
+# -------------------------------
+# CHANGE THESE VALUES
+# -------------------------------
+my $LOCAL_BASE = 'D:\\saksham\\CKYC_New';
+my $PVCS_BASE  = '/CKYC/Server_Development/CKYC_New';
+
+# -------------------------------
+# COLLECT DIRECTORIES
+# -------------------------------
+my %dirs;
+
+find(
+    sub {
+        return unless -d;
+        my $path = $File::Find::name;
+        $path =~ s|\\|/|g;
+        $path =~ s|^\Q$LOCAL_BASE\E||;
+        return if $path eq '';
+        $dirs{$path} = 1;
+    },
+    $LOCAL_BASE
+);
+
+# -------------------------------
+# CREATE PVCS FOLDERS
+# -------------------------------
+foreach my $d (sort keys %dirs) {
+    my $pvcs_path = "$PVCS_BASE$d";
+    my $cmd = qq{pcli mkdir "$pvcs_path"};
+    system($cmd);
+}
+
+print "✔ Folder structure created in PVCS\n";
+
+# -------------------------------
+# INITIAL CHECK-IN (1.0)
+# -------------------------------
+find(
+    sub {
+        return unless -f;
+        my $file = $File::Find::name;
+        my $cmd = qq{pcli add "$file" && pcli checkin "$file" -m "Initial checkin"};
+        system($cmd);
+    },
+    $LOCAL_BASE
+);
+
+print "✔ Initial check-in completed (1.0)\n";
+
+# -------------------------------
+# LOCK FILES
+# -------------------------------
+find(
+    sub {
+        return unless -f;
+        my $file = $File::Find::name;
+        system(qq{pcli lock "$file"});
+    },
+    $LOCAL_BASE
+);
+
+print "✔ All files locked\n";
+
+# -------------------------------
+# PROMOTE VERSION → 3.0
+# -------------------------------
+find(
+    sub {
+        return unless -f;
+        my $file = $File::Find::name;
+
+        # 2nd check-in (2.0)
+        system(qq{pcli checkin "$file" -m "Promoted to 2.0"});
+
+        # 3rd check-in (3.0)
+        system(qq{pcli checkin "$file" -m "Promoted to 3.0"});
+    },
+    $LOCAL_BASE
+);
+
+print "✔ Files now at version 3.0\n";
+print "✔ Automation completed successfully\n";
