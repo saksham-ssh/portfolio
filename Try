@@ -1,0 +1,46 @@
+use strict;
+use warnings;
+use File::Find;
+
+# -------------------------------------------------
+# LOCAL WORKSPACE
+# -------------------------------------------------
+my $LOCAL_BASE = 'D:\\0_saksham_edms\\DMS_IT_API_SA';
+
+# -------------------------------------------------
+# PVCS PROJECT (ALREADY EXISTS)
+# -------------------------------------------------
+my $PVCS_PROJECT = '/EDMS_CKYC/DMS_IT_API_SA';
+
+# -------------------------------------------------
+# STEP 1: SET WORKFILE LOCATION (FROM MANUAL)
+# -------------------------------------------------
+system(qq{
+    pcli setworklocation -pr "$PVCS_PROJECT" "$LOCAL_BASE"
+});
+
+print "✔ Workfile location set for PVCS project\n";
+
+# -------------------------------------------------
+# STEP 2: ADD FILES + CHECK-IN AS VERSION 1.0
+# -------------------------------------------------
+find(
+    sub {
+        return unless -f;
+
+        my $file = $File::Find::name;
+
+        # Add file (PVCS auto-creates projects/folders)
+        system(qq{pcli add "$file"});
+
+        # Check-in as 1.0
+        system(
+            qq{pcli checkin "$file" -r 1.0 -m "Initial project check-in"}
+        );
+    },
+    $LOCAL_BASE
+);
+
+print "✔ Files checked-in as version 1.0\n";
+print "✔ Folder structure auto-created by PVCS\n";
+print "✔ DONE\n";
