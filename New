@@ -1,0 +1,63 @@
+use strict;
+use warnings;
+use File::Find;
+
+# -------------------------------------------------
+# CHANGE ONLY THESE TWO VALUES
+# -------------------------------------------------
+my $LOCAL_BASE = 'D:\\0_saksham_edms\\DMS_IT_API_SA';
+my $PVCS_BASE  = '/EDMS_CKYC/DMS_IT_API_SA';   # already exists in PVCS
+
+# -------------------------------------------------
+# STEP 1: COLLECT ALL LOCAL DIRECTORIES (SUBFOLDERS)
+# -------------------------------------------------
+my %dirs;
+
+find(
+    sub {
+        return unless -d;
+
+        my $dir = $File::Find::name;
+
+        # Windows → Unix style
+        $dir =~ s|\\|/|g;
+
+        # Remove local base path
+        $dir =~ s|^\Q$LOCAL_BASE\E||;
+
+        # Skip root itself
+        return if $dir eq '' || $dir eq '/';
+
+        $dirs{$dir} = 1;
+    },
+    $LOCAL_BASE
+);
+
+# -------------------------------------------------
+# STEP 2: CREATE SUBFOLDERS IN PVCS
+# -------------------------------------------------
+foreach my $d (sort keys %dirs) {
+    system(qq{pcli mkdir "$PVCS_BASE$d"});
+}
+
+print "✔ Sub-folder structure created in PVCS\n";
+
+# -------------------------------------------------
+# STEP 3: ADD FILES + CHECK-IN AS VERSION 1.0
+# -------------------------------------------------
+find(
+    sub {
+        return unless -f;
+
+        my $file = $File::Find::name;
+
+        system(qq{pcli add "$file"});
+        system(
+            qq{pcli checkin "$file" -r 1.0 -m "New project initial check-in"}
+        );
+    },
+    $LOCAL_BASE
+);
+
+print "✔ All files checked-in as version 1.0\n";
+print "✔ DONE\n";
