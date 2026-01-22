@@ -1,72 +1,65 @@
 use strict;
 use warnings;
 use File::Find;
-use Cwd;
 
-# -------------------------------
-# CHANGE THESE VALUES
-# -------------------------------
+# -------------------------------------------------
+# CHANGE ONLY THESE TWO VALUES
+# -------------------------------------------------
 my $LOCAL_BASE = 'D:\\saksham\\CKYC_New';
 my $PVCS_BASE  = '/CKYC/Server_Development/CKYC_New';
 
-# -------------------------------
-# COLLECT DIRECTORIES
-# -------------------------------
+# -------------------------------------------------
+# STEP 1: CREATE FOLDER STRUCTURE IN PVCS
+# -------------------------------------------------
 my %dirs;
 
 find(
     sub {
         return unless -d;
-        my $path = $File::Find::name;
-        $path =~ s|\\|/|g;
-        $path =~ s|^\Q$LOCAL_BASE\E||;
-        return if $path eq '';
-        $dirs{$path} = 1;
+        my $dir = $File::Find::name;
+        $dir =~ s|\\|/|g;
+        $dir =~ s|^\Q$LOCAL_BASE\E||;
+        return if $dir eq '';
+        $dirs{$dir} = 1;
     },
     $LOCAL_BASE
 );
 
-# -------------------------------
-# CREATE PVCS FOLDERS
-# -------------------------------
 foreach my $d (sort keys %dirs) {
-    my $pvcs_path = "$PVCS_BASE$d";
-    my $cmd = qq{pcli mkdir "$pvcs_path"};
-    system($cmd);
+    system(qq{pcli mkdir "$PVCS_BASE$d"});
 }
 
 print "✔ Folder structure created in PVCS\n";
 
-# -------------------------------
-# INITIAL CHECK-IN (1.0)
-# -------------------------------
+# -------------------------------------------------
+# STEP 2: ADD FILES + CHECK-IN 1.0 AND 3.0
+# -------------------------------------------------
 find(
     sub {
         return unless -f;
         my $file = $File::Find::name;
-        my $cmd = qq{pcli add "$file" && pcli checkin "$file" -m "Initial checkin"};
-        system($cmd);
-    },
-    $LOCAL_BASE
-);
 
-print "✔ Initial check-in completed (1.0)\n";
+        # Add file
+        system(qq{pcli add "$file"});
 
-# -------------------------------
-# LOCK FILES
-# -------------------------------
-find(
-    sub {
-        return unless -f;
-        my $file = $File::Find::name;
+        # Check-in as version 1.0
+        system(
+            qq{pcli checkin "$file" -r 1.0 -m "New project"}
+        );
+
+        # Check-in directly as version 3.0
+        system(
+            qq{pcli checkin "$file" -r 3.0 -m "Release 3.0"}
+        );
+
+        # Lock file
         system(qq{pcli lock "$file"});
     },
     $LOCAL_BASE
 );
 
-print "✔ All files locked\n";
-
-# -------------------------------
+print "✔ All files checked-in (1.0 → 3.0) and locked\n";
+print "✔ AUTOMATION COMPLETED SUCCESSFULLY\n";# -------------------------------
 # PROMOTE VERSION → 3.0
 # -------------------------------
 find(
