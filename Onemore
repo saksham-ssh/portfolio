@@ -1,0 +1,55 @@
+use strict;
+use warnings;
+use File::Find;
+
+# --------------------------------------------------
+# CONFIGURATION – CHANGE ONLY THESE VALUES
+# --------------------------------------------------
+
+# PVCS credentials (as per PCLI help)
+my $PVCS_USER = 'tcs1343507';
+my $PVCS_PASS = 'P@$$w0rd';
+
+# PVCS project path (already exists in DB)
+my $PVCS_PROJECT = '/EDMS_CKYC/DMS_IT_API_SA';
+
+# Local workspace path
+my $LOCAL_BASE = 'D:\\0_saksham_edms\\DMS_IT_API_SA';
+
+# Workspace (RootWorkspace from your GUI)
+my $WORKSPACE = '/@/RootWorkspace';
+
+# --------------------------------------------------
+# STEP 1: SET WORKFILE LOCATION (AUTHENTICATED)
+# --------------------------------------------------
+system(
+    qq{pcli setworklocation -id $PVCS_USER:$PVCS_PASS -sp $WORKSPACE -prp "$PVCS_PROJECT" "$LOCAL_BASE"}
+);
+
+print "✔ Workfile location set for PVCS project\n";
+
+# --------------------------------------------------
+# STEP 2: ADD FILES + CHECK-IN AS VERSION 1.0
+# --------------------------------------------------
+find(
+    sub {
+        return unless -f;
+
+        my $file = $File::Find::name;
+
+        # Add file (folders auto-created)
+        system(
+            qq{pcli add -id $PVCS_USER:$PVCS_PASS "$file"}
+        );
+
+        # Check-in as version 1.0
+        system(
+            qq{pcli checkin -id $PVCS_USER:$PVCS_PASS "$file" -r 1.0 -m "Initial project check-in"}
+        );
+    },
+    $LOCAL_BASE
+);
+
+print "✔ Files checked-in as version 1.0\n";
+print "✔ Folder structure auto-created by PVCS\n";
+print "✔ AUTOMATION COMPLETED\n";
