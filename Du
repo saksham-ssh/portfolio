@@ -1,0 +1,9 @@
+@echo off
+set input=input.txt
+set output=unique.txt
+
+sort "%input%" /unique > "%output%"
+
+echo Duplicate lines removed.
+echo Output file: %output%
+pause
