@@ -1,0 +1,15 @@
+@echo off
+setlocal enabledelayedexpansion
+
+set "input=input.txt"
+set "output=unique.txt"
+
+if exist "%output%" del "%output%"
+
+for /f "usebackq delims=" %%A in ("%input%") do (
+    findstr /x /c:"%%A" "%output%" >nul || echo %%A>>"%output%"
+)
+
+echo Duplicate lines removed (order preserved).
+echo Output file: %output%
+pause
