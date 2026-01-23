@@ -1,0 +1,19 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+set "input=input.txt"
+set "output=output.txt"
+
+> "%output%" (
+  for /f "usebackq delims=" %%A in ("%input%") do (
+    set "line=%%A"
+    if not "!line!"=="" (
+      for %%B in ("!line!") do (
+        echo %%~dpB
+      )
+    )
+  )
+)
+
+echo Done!
+pause
