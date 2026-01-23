@@ -1,0 +1,15 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+set "input=input.txt"
+set "output=unique.txt"
+
+REM Create empty output file first
+> "%output%" type nul
+
+for /f "usebackq delims=" %%A in ("%input%") do (
+    findstr /x /c:"%%A" "%output%" >nul || echo %%A>>"%output%"
+)
+
+echo Done! Duplicate lines removed.
+pause
