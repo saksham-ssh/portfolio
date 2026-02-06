@@ -1,0 +1,35 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+set "input=input.txt"
+set "output=output.txt"
+
+> "%output%" (
+
+for /f "usebackq delims=" %%A in ("%input%") do (
+
+    set "line=%%A"
+
+    REM Remove file name (everything after last /)
+    for %%B in ("!line!") do set "dir=%%~dpB"
+
+    REM Convert Windows-style backslash to forward slash
+    set "dir=!dir:\=/!"
+
+    REM Remove trailing slash
+    if "!dir:~-1!"=="/" set "dir=!dir:~0,-1!"
+
+    REM Build mapped path
+    set "mapped=/BASE!dir!"
+
+    REM Prevent duplicates
+    if not defined seen_!mapped! (
+        set "seen_!mapped!=1"
+        echo ^<DIR VCSPATH="!dir!" MAPPEDPATH="!mapped!" /^>
+    )
+)
+
+)
+
+echo Done!
+pause
