@@ -10,19 +10,20 @@ for /f "usebackq delims=" %%A in ("%input%") do (
 
     set "line=%%A"
 
-    REM Remove file name (everything after last /)
-    for %%B in ("!line!") do set "dir=%%~dpB"
+    REM Remove filename (everything after last /)
+    set "dir=!line!"
+    for %%x in ("!dir!") do set "dir=!dir:~0,%%~nx!"
 
-    REM Convert Windows-style backslash to forward slash
-    set "dir=!dir:\=/!"
-
-    REM Remove trailing slash
+    REM Remove trailing slash if present
     if "!dir:~-1!"=="/" set "dir=!dir:~0,-1!"
+
+    REM Remove accidental Windows drive letter
+    if "!dir:~1,1!"==":" set "dir=!dir:~2!"
 
     REM Build mapped path
     set "mapped=/BASE!dir!"
 
-    REM Prevent duplicates
+    REM Deduplicate
     if not defined seen_!mapped! (
         set "seen_!mapped!=1"
         echo ^<DIR VCSPATH="!dir!" MAPPEDPATH="!mapped!" /^>
